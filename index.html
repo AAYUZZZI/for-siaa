@@ -176,14 +176,14 @@ button {
     <p id="typedText"></p>
 <span class="cursor"></span>
 
-    <div class="proposal">
+    <div class="proposal" id="proposal" style="display:none;">
       <p>Will you marry me in the future? 💍</p>
       <button class="yes" onclick="showPopup(); startConfetti();">
   Yes ❤️
 </button>
       <button class="no" id="noBtn" 
   onmouseover="moveNo()" 
-  onclick="alert('Nice try… but that option is not valid 😌❤️')">
+  onclick="noClick()">
   no...
 </button>
     </div>
@@ -220,11 +220,52 @@ function typeWriter() {
       char === "\n" ? "<br>" : char;
 
     index++;
-    setTimeout(typeWriter, 40);
+    setTimeout(typeWriter, getDelay(char));
+  } else {
+    // 👇 THIS IS WHERE YOUR CODE GOES
+    setTimeout(() => {
+      document.getElementById("proposal").style.display = "block";
+    }, 800);
+  }
+}
+window.onload = typeWriter;
+let noTexts = [
+  "no...",
+  "are you sure?",
+  "think again 😌",
+  "really? 😏",
+  "last chance...",
+  "wrong answer ❤️"
+];
+
+let noIndex = 0;
+let scale = 1;
+
+function moveNo() {
+  const btn = document.getElementById("noBtn");
+
+  // move position
+  const x = Math.random() * (window.innerWidth - 120);
+  const y = Math.random() * (window.innerHeight - 60);
+
+  btn.style.position = "absolute";
+  btn.style.left = x + "px";
+  btn.style.top = y + "px";
+
+  // change text
+  noIndex = (noIndex + 1) % noTexts.length;
+  btn.innerText = noTexts[noIndex];
+
+  // shrink slowly
+  scale -= 0.1;
+  if (scale > 0.4) {
+    btn.style.transform = `scale(${scale})`;
   }
 }
 
-window.onload = typeWriter;
+function noClick() {
+  alert("Nice try… but that option is not available 😌❤️");
+}  
 function showPopup() {
   document.getElementById("popup").style.display = "flex";
 }
