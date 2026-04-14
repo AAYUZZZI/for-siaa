@@ -152,6 +152,7 @@ button {
 .no { background: #ddd; color: black; font-size: 12px; }
 </style>
 </head>
+<body>
 <div id="popup" class="popup">
   <div class="popup-content">
     <h2>Yayyyyy!!! 💖</h2>
@@ -164,8 +165,7 @@ button {
     <button onclick="closePopup()">Close</button>
   </div>
 </div>
-<canvas id="confetti"></canvas>  
-<body>
+<canvas id="confetti"></canvas>    
 
 <div class="container">
 
@@ -229,6 +229,11 @@ function typeWriter() {
   }
 }
 window.onload = typeWriter;
+function getDelay(char) {
+  if (char === "." || char === "," || char === "!") return 200;
+  if (char === "\n") return 300;
+  return 40;
+}  
 let noTexts = [
   "no...",
   "are you sure?",
@@ -312,16 +317,6 @@ function startConfetti() {
   }
 
   update();
-}  
-function moveNo() {
-  const btn = document.getElementById("noBtn");
-
-  const x = Math.random() * (window.innerWidth - 100);
-  const y = Math.random() * (window.innerHeight - 50);
-
-  btn.style.position = "absolute";
-  btn.style.left = x + "px";
-  btn.style.top = y + "px";
 }  
 </script>
 </body>
