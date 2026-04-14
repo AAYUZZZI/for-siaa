@@ -58,7 +58,8 @@ body {
 }
 #typedText {
   position: relative;
-  z-index: 1;   /* 👈 brings text above lines */
+  z-index: 1;
+  color: #333;
 }
 
 .cursor {
@@ -118,7 +119,8 @@ button {
   <div class="letter">
     <h2>My Love ❤️</h2>
 
-    <p id="typedText"></p><span class="cursor"></span>
+    <p id="typedText"></p>
+<span class="cursor"></span>
 
     <div class="proposal">
       <p>Will you marry me in the future? 💍</p>
@@ -136,7 +138,6 @@ button {
 </div>
 
 <script>
-// YOUR LETTER (edit this)
 const text = `Hi jaanu,
 
 From the day when we became close frnds, everything felt different. The way you smile, the way you comfort me, the way you convince me to make reels with you or to do some g masti with you … it all became my favorite part of life and that is what i want in the rest of my life....i hope we will continue with this things along with some extra things....and now when i see you i get butterflies every damn time whenever i see you because you are very special for me i cant express it with words but you really mean for me you are my comfort zone, my home, my safe place, my everything....
@@ -151,28 +152,20 @@ yours lovingly
 yuzz 💖`;
 
 let index = 0;
-const baseSpeed = 55; // slower base speed
-
-function getDelay(char) {
-  if (char === '.' || char === '!' || char === '?') return 600; // long pause
-  if (char === ',') return 300; // medium pause
-  if (char === '
-') return 400; // line break pause
-  return baseSpeed + Math.random() * 40; // slight human variation
-}
 
 function typeWriter() {
   if (index < text.length) {
     const char = text.charAt(index);
-    document.getElementById("typedText").innerHTML += char === '
-' ? '<br>' : char;
+
+    document.getElementById("typedText").innerHTML += 
+      char === "\n" ? "<br>" : char;
+
     index++;
-    setTimeout(typeWriter, getDelay(char));
+    setTimeout(typeWriter, 40);
   }
 }
 
 window.onload = typeWriter;
 </script>
-
 </body>
 </html>
