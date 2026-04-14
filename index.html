@@ -54,13 +54,11 @@ body {
     #ffd6e0 29px
   );
   pointer-events: none;
+  z-index: 0;   /* 👈 IMPORTANT */
 }
-
-h2 { margin-top: 0; }
-
-/* TYPEWRITER TEXT */
 #typedText {
-  white-space: pre-wrap;
+  position: relative;
+  z-index: 1;   /* 👈 brings text above lines */
 }
 
 .cursor {
