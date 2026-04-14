@@ -9,6 +9,47 @@
 <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;600&display=swap" rel="stylesheet">
 
 <style>
+#confetti {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 99;
+}  
+.popup {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.4);
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+}
+
+.popup-content {
+  background: #fffaf5;
+  padding: 30px;
+  border-radius: 12px;
+  text-align: center;
+  width: 320px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+  font-family: 'Dancing Script', cursive;
+}
+
+.popup-content button {
+  margin-top: 15px;
+  padding: 8px 20px;
+  border: none;
+  border-radius: 20px;
+  background: #ff4d6d;
+  color: white;
+  cursor: pointer;
+}  
 body {
   margin: 0;
   font-family: 'Dancing Script', cursive;
@@ -111,6 +152,19 @@ button {
 .no { background: #ddd; color: black; font-size: 12px; }
 </style>
 </head>
+<div id="popup" class="popup">
+  <div class="popup-content">
+    <h2>Yayyyyy!!! 💖</h2>
+    <p>
+      So it’s official now… we are future husband & wife 😌💍<br><br>
+      You’re stuck with me forever now… no escape 😏❤️<br><br>
+      And I promise… I’ll never leave you, no matter what.<br>
+      It’s always going to be you. Always. 💕
+    </p>
+    <button onclick="closePopup()">Close</button>
+  </div>
+</div>
+<canvas id="confetti"></canvas>  
 <body>
 
 <div class="container">
@@ -124,9 +178,14 @@ button {
 
     <div class="proposal">
       <p>Will you marry me in the future? 💍</p>
-      <button class="yes">Yes ❤️</button>
-      <button class="definitely">Definitely 💖</button>
-      <button class="no">no...</button>
+      <button class="yes" onclick="showPopup(); startConfetti();">
+  Yes ❤️
+</button>
+      <button class="no" id="noBtn" 
+  onmouseover="moveNo()" 
+  onclick="alert('Nice try… but that option is not valid 😌❤️')">
+  no...
+</button>
     </div>
   </div>
 
@@ -166,6 +225,63 @@ function typeWriter() {
 }
 
 window.onload = typeWriter;
+function showPopup() {
+  document.getElementById("popup").style.display = "flex";
+}
+
+function closePopup() {
+  document.getElementById("popup").style.display = "none";
+}  
+function startConfetti() {
+  const canvas = document.getElementById("confetti");
+  const ctx = canvas.getContext("2d");
+
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+
+  let pieces = [];
+
+  for (let i = 0; i < 100; i++) {
+    pieces.push({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height - canvas.height,
+      size: Math.random() * 8 + 4,
+      speed: Math.random() * 3 + 2
+    });
+  }
+
+  function update() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    pieces.forEach(p => {
+      ctx.fillStyle = Math.random() > 0.5 ? "#ff4d6d" : "#ff8fa3";
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+      ctx.fill();
+
+      p.y += p.speed;
+
+      if (p.y > canvas.height) {
+        p.y = -10;
+        p.x = Math.random() * canvas.width;
+      }
+    });
+
+    requestAnimationFrame(update);
+  }
+
+  update();
+}  
+function moveNo() {
+  const btn = document.getElementById("noBtn");
+
+  const x = Math.random() * (window.innerWidth - 100);
+  const y = Math.random() * (window.innerHeight - 50);
+
+  btn.style.position = "absolute";
+  btn.style.left = x + "px";
+  btn.style.top = y + "px";
+}  
 </script>
 </body>
 </html>
