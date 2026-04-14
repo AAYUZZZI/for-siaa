@@ -172,27 +172,34 @@ button {
 <script>
 const text = `Hi jaanu,
 
-From the day we became close, everything felt different.
-You became my comfort, my home, my safe place.
+From the day when we became close frnds, everything felt different. The way you smile, the way you comfort me, the way you convince me to make reels with you or to do some g masti with you … it all became my favorite part of life and that is what i want in the rest of my life....i hope we will continue with this things along with some extra things....and now when i see you i get butterflies every damn time whenever i see you because you are very special for me i cant express it with words but you really mean for me you are my comfort zone, my home, my safe place, my everything....
 
-I want a future with you… always. 💖`;
+Every small moment with you means more than you know. You make my days lighter like you did yesterday by sending me a voice mail when i was trying to figure out what i happening with me and my family, and you always comfort me for everything and with everyone, you made me a lil bit social in life which changed my life so much and made it so better, you always encouraged me to try new things which you know that it will make me happy and only you know how i feel at some moments where no one knows about and you always distracted me at that time.....
+
+I don’t just love you for who you are today, but for every version of you I’ll see in the future and i hope we will be together till the end and we will try to fight with the toughest situations possible and still choose each other again and again and make our bond very strong and make it unbreakable aahahaah, so yeahaha i love you so much through the bottom of my heart, you are the favoritest person ever baby i cannot imagine a future without you so that is why......
+
+I want to build that future with you… always.
+
+yours lovingly
+yuzz 💖`;
 
 let index = 0;
 
-function getDelay(char) {
-  if (char === "." || char === ",") return 150;
-  if (char === "\n") return 300;
-  return 40;
-}
-
 function typeWriter() {
   if (index < text.length) {
-    const char = text.charAt(index);
-    document.getElementById("typedText").innerHTML += 
-      char === "\n" ? "<br>" : char;
+    const char = text[index];
+
+    const el = document.getElementById("typedText");
+
+    if (char === "\n") {
+      el.innerHTML += "<br>";
+    } else {
+      el.innerHTML += char;
+    }
 
     index++;
-    setTimeout(typeWriter, getDelay(char));
+
+    setTimeout(typeWriter, 40); // 👈 simple delay (NO getDelay)
   } else {
     setTimeout(() => {
       document.getElementById("proposal").style.display = "block";
@@ -200,11 +207,14 @@ function typeWriter() {
   }
 }
 
-window.onload = typeWriter;
+window.onload = function() {
+  typeWriter();
+};
 
 /* NO BUTTON */
 function moveNo() {
   const btn = document.getElementById("noBtn");
+
   btn.style.position = "absolute";
   btn.style.left = Math.random() * (window.innerWidth - 100) + "px";
   btn.style.top = Math.random() * (window.innerHeight - 50) + "px";
@@ -214,6 +224,7 @@ function moveNo() {
 function showPopup() {
   document.getElementById("popup").style.display = "flex";
 }
+
 function closePopup() {
   document.getElementById("popup").style.display = "none";
 }
@@ -222,29 +233,38 @@ function closePopup() {
 function startConfetti() {
   const canvas = document.getElementById("confetti");
   const ctx = canvas.getContext("2d");
+
   canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;
 
-  let pieces = Array.from({length:100}, () => ({
-    x: Math.random()*canvas.width,
-    y: Math.random()*canvas.height,
-    r: Math.random()*6+2,
-    d: Math.random()*3+2
-  }));
+  let pieces = [];
 
-  function draw() {
-    ctx.clearRect(0,0,canvas.width,canvas.height);
+  for (let i = 0; i < 100; i++) {
+    pieces.push({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height,
+      size: Math.random() * 6 + 2,
+      speed: Math.random() * 3 + 2
+    });
+  }
+
+  function update() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
     pieces.forEach(p => {
       ctx.beginPath();
-      ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
-      ctx.fillStyle = Math.random()>0.5?"#ff4d6d":"#ff8fa3";
+      ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+      ctx.fillStyle = Math.random() > 0.5 ? "#ff4d6d" : "#ff8fa3";
       ctx.fill();
-      p.y += p.d;
-      if(p.y>canvas.height) p.y=0;
+
+      p.y += p.speed;
+      if (p.y > canvas.height) p.y = 0;
     });
-    requestAnimationFrame(draw);
+
+    requestAnimationFrame(update);
   }
-  draw();
+
+  update();
 }
 </script>
 
